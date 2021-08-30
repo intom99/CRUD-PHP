@@ -7,7 +7,7 @@
                     <a href="#" data-target="mobile-navbar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a href="index.php">Beranda</a></li>
-                        <li><a href="#">Buku</a></li>
+                        <li><a href="buku.php">Buku</a></li>
                         <li><a href="penulis.php">Penulis</a></li>
                         <li><a href="penerbit.php">Penerbit</a></li>
                     </ul>
