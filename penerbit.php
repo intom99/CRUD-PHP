@@ -37,6 +37,7 @@ if (isset($_POST['submit'])) {
                                 <th>Email</th>
                                 <th>Social Media</th>
                                 <th>Alamat</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,6 +49,9 @@ if (isset($_POST['submit'])) {
                                     <td><?php echo $row['email_penerbit'] ?></td>
                                     <td><?php echo $row['sosmed_penerbit'] ?></td>
                                     <td><?php echo $row['alamat_penerbit'] ?></td>
+                                    <td>
+                                        <a class="waves-effect waves-light blue darken-4 btn btn-small modal-trigger" href="#edit<?php echo $row['id'] ?>"><i class="material-icons">create</i></a>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -92,7 +96,41 @@ if (isset($_POST['submit'])) {
     </div>
 </div>
 
+<!-- Modal Edit Data-->
+<?php foreach ($query as $data) { ?>
+    <div id="edit<?php echo $data['id'] ?>" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <h4>Form Penerbit</h4>
+                <form action="penerbit.php" method="GET">
+                    <input type="hidden" name="id" value="<?php echo $data['id'] ?>">
+                    <div class="input-field col s12 m12">
+                        <input id="penerbit" name="penerbit" value="<?php echo $data['penerbit'] ?>" type="text" class="validate">
+                        <label for="penerbit">Nama Penerbit</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <input id="email_penerbit" name="email_penerbit" value="<?php echo $data['email_penerbit'] ?>" type="email" class="validate">
+                        <label for="email_penerbit">Email</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <input id="sosmed_penerbit" name="sosmed_penerbit" value="<?php echo $data['sosmed_penerbit'] ?>" type="text" class="validate">
+                        <label for="sosmed_penerbit">Sosial Media</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <textarea id="alamat_penerbit" name="alamat_penerbit" class="materialize-textarea"><?php echo $data['alamat_penerbit'] ?></textarea>
+                        <label for="alamat_penerbit">Alamat</label>
+                    </div>
 
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect waves-light grey btn-small" title="Batal"><i class="material-icons left">cancel</i> Batal</a>
+            <button type="submit" name="update" title="Simpan" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Update</button>
+            </form>
+        </div>
+    </div>
+
+<?php } ?>
 
 <?php
 include('layouts/footer.php');
