@@ -12,6 +12,9 @@ if (isset($_POST['submit'])) {
     $alamat_penulis = $_POST['alamat_penulis'];
     $sosmed_penulis = $_POST['sosmed_penulis'];
 
+    // if (empty($penulis && $email_penulis)) {
+    //     $err = 'You';
+    // } else {}
     mysqli_query($connect, "INSERT INTO penulis(penulis, email_penulis, alamat_penulis, sosmed_penulis) VALUES ('$penulis', '$email_penulis', '$alamat_penulis','$sosmed_penulis')");
     header('location:penulis.php');
 }
@@ -25,7 +28,7 @@ if (isset($_POST['submit'])) {
             <div class="card white">
                 <div class="card-content black-text">
                     <span class="card-title">
-                        <!-- Modal Trigger -->
+                        <!-- Modal Tambah -->
                         <a class="waves-effect waves-light cyan darken-4 btn btn-small modal-trigger" href="#tambah"><i class="material-icons left">add</i> Tambah</a>
 
                     </span>
@@ -50,7 +53,7 @@ if (isset($_POST['submit'])) {
                                     <td><?php echo $row['alamat_penulis'] ?></td>
                                     <td><?php echo $row['sosmed_penulis'] ?></td>
                                     <td>
-                                        <a href="#" class="waves-effect waves-light light-blue darken-4 btn-small" title="Edit"><i class="material-icons">create</i></a>
+                                        <a class="waves-effect waves-light blue darken-4 btn btn-small modal-trigger" href="#edit<?php echo $row['id'] ?>"><i class="material-icons">create</i></a>
                                         <a href="#" class="waves-effect waves-light red darken-4 btn-small" title="Delete"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr>
@@ -69,6 +72,9 @@ if (isset($_POST['submit'])) {
         <div class="row">
             <h4>Form Penulis</h4>
             <form action="penulis.php" method="POST">
+                <?php if (isset($err)) { ?>
+                    <p><?php echo $err; ?></p>
+                <?php } ?>
                 <div class="input-field col s12 m12">
                     <input id="penulis" name="penulis" type="text" class="validate">
                     <label for="penulis">Nama Penulis</label>
@@ -94,6 +100,77 @@ if (isset($_POST['submit'])) {
         </form>
     </div>
 </div>
+
+<!-- Modal Edit Data-->
+<?php foreach ($query as $data) { ?>
+    <div id="edit<?php echo $data['id'] ?>" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <h4>Form Penulis</h4>
+                <form action="penulis.php" method="POST">
+                    <input type="hidden" name="id" id="id" value="<?php echo $data['id'] ?>">
+                    <div class="input-field col s12 m12">
+                        <input id="penulis" name="penulis" value="<?php echo $data['penulis'] ?>" type="text" class="validate">
+                        <label for="penulis">Nama Penulis</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <input id="email_penulis" name="email_penulis" value="<?php echo $data['email_penulis'] ?>" type="email" class="validate">
+                        <label for="email_penulis">Email</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <input id="sosmed_penulis" name="sosmed_penulis" value="<?php echo $data['sosmed_penulis'] ?>" type="text" class="validate">
+                        <label for="sosmed_penulis">Sosial Media</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <textarea id="alamat_penulis" name="alamat_penulis" class="materialize-textarea"><?php echo $data['alamat_penulis'] ?></textarea>
+                        <label for="alamat_penulis">Alamat</label>
+                    </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect waves-light grey btn-small" title="Batal"><i class="material-icons left">cancel</i> Batal</a>
+            <button type="submit" name="submit" title="Simpan" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Simpan</button>
+            </form>
+        </div>
+    </div>
+<?php } ?>
+
+<!-- Modal Edit Data-->
+<?php foreach ($query as $data) { ?>
+    <div id="edit<?php echo $data['id'] ?>" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <h4>Form Penerbit</h4>
+                <form action="penerbit.php" method="POST">
+                    <input type="hidden" name="id" id="id" value="<?php echo $data['id'] ?>">
+                    <div class="input-field col s12 m12">
+                        <input name="penerbit" value="<?php echo $data['penerbit'] ?>" type="text" class="validate">
+                        <label for="penerbit">Nama Penerbit</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <input id="email_penerbit" name="email_penerbit" value="<?php echo $data['email_penerbit'] ?>" type="email" class="validate">
+                        <label for="email_penerbit">Email</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <input id="sosmed_penerbit" name="sosmed_penerbit" value="<?php echo $data['sosmed_penerbit'] ?>" type="text" class="validate">
+                        <label for="sosmed_penerbit">Sosial Media</label>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        <textarea id="alamat_penerbit" name="alamat_penerbit" class="materialize-textarea"><?php echo $data['alamat_penerbit'] ?></textarea>
+                        <label for="alamat_penerbit">Alamat</label>
+                    </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect waves-light grey btn-small" title="Batal"><i class="material-icons left">cancel</i> Batal</a>
+            <button type="submit" name="update" title="Update" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Update</button>
+            </form>
+        </div>
+    </div>
+
+<?php } ?>
 
 <?php
 include('layouts/footer.php');
