@@ -2,6 +2,7 @@
 include('layouts/header.php');
 include('layouts/navbar.php');
 
+// Tampil
 $query = mysqli_query($connect, "SELECT * FROM penerbit");
 
 // Tambah
@@ -12,6 +13,17 @@ if (isset($_POST['submit'])) {
     $alamat_penerbit = $_POST['alamat_penerbit'];
 
     mysqli_query($connect, "INSERT INTO penerbit(penerbit,email_penerbit,sosmed_penerbit,alamat_penerbit) VALUES('$penerbit','$email_penerbit','$sosmed_penerbit','$alamat_penerbit')");
+    header('location: penerbit.php');
+}
+
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $penerbit = $_POST['penerbit'];
+    $email_penerbit = $_POST['email_penerbit'];
+    $sosmed_penerbit = $_POST['sosmed_penerbit'];
+    $alamat_penerbit = $_POST['alamat_penerbit'];
+
+    mysqli_query($connect, "UPDATE penerbit SET penerbit = '$penerbit', email_penerbit = '$email_penerbit',sosmed_penerbit = '$sosmed_penerbit',alamat_penerbit = '$alamat_penerbit' WHERE id ='$id'");
     header('location: penerbit.php');
 }
 
@@ -102,10 +114,10 @@ if (isset($_POST['submit'])) {
         <div class="modal-content">
             <div class="row">
                 <h4>Form Penerbit</h4>
-                <form action="penerbit.php" method="GET">
-                    <input type="hidden" name="id" value="<?php echo $data['id'] ?>">
+                <form action="penerbit.php" method="POST">
+                    <input type="hidden" name="id" id="id" value="<?php echo $data['id'] ?>">
                     <div class="input-field col s12 m12">
-                        <input id="penerbit" name="penerbit" value="<?php echo $data['penerbit'] ?>" type="text" class="validate">
+                        <input name="penerbit" value="<?php echo $data['penerbit'] ?>" type="text" class="validate">
                         <label for="penerbit">Nama Penerbit</label>
                     </div>
                     <div class="input-field col s12 m12">
@@ -125,7 +137,7 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="modal-footer">
             <a href="#" class="modal-close waves-effect waves-light grey btn-small" title="Batal"><i class="material-icons left">cancel</i> Batal</a>
-            <button type="submit" name="update" title="Simpan" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Update</button>
+            <button type="submit" name="update" title="Update" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Update</button>
             </form>
         </div>
     </div>
