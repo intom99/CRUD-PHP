@@ -31,6 +31,14 @@ if (isset($_POST['update'])) {
     header('location: penulis.php');
 }
 
+//Hapus
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+
+    mysqli_query($connect, "DELETE FROM penulis WHERE id = '$id'");
+    header('location: penulis.php');
+}
+
 ?>
 
 <!-- content penulis-->
@@ -66,8 +74,8 @@ if (isset($_POST['update'])) {
                                     <td><?php echo $row['alamat_penulis'] ?></td>
                                     <td><?php echo $row['sosmed_penulis'] ?></td>
                                     <td>
-                                        <a class="waves-effect waves-light blue darken-4 btn btn-small modal-trigger" href="#edit<?php echo $row['id'] ?>"><i class="material-icons">create</i></a>
-                                        <a href="#" class="waves-effect waves-light red darken-4 btn-small" title="Delete"><i class="material-icons">delete</i></a>
+                                        <a class="waves-effect waves-light blue darken-4 btn btn-small modal-trigger" href="#edit<?php echo $row['id'] ?>" title="Edit"><i class="material-icons">create</i></a>
+                                        <a onclick="javascript:return confirm('apakah anda yakin akan dihapus ?');" href="penulis.php?delete=<?php echo $row['id'] ?>" class="waves-effect waves-light red darken-4 btn-small" title="Hapus"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr>
                             <?php } ?>
