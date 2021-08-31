@@ -18,6 +18,19 @@ if (isset($_POST['submit'])) {
     mysqli_query($connect, "INSERT INTO penulis(penulis, email_penulis, alamat_penulis, sosmed_penulis) VALUES ('$penulis', '$email_penulis', '$alamat_penulis','$sosmed_penulis')");
     header('location:penulis.php');
 }
+
+// Update
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $penulis = $_POST['penulis'];
+    $email_penulis = $_POST['email_penulis'];
+    $sosmed_penulis = $_POST['sosmed_penulis'];
+    $alamat_penulis = $_POST['alamat_penulis'];
+
+    mysqli_query($connect, "UPDATE penulis SET penulis='$penulis', email_penulis = '$email_penulis', alamat_penulis = '$alamat_penulis', sosmed_penulis = '$sosmed_penulis' WHERE id = '$id'");
+    header('location: penulis.php');
+}
+
 ?>
 
 <!-- content penulis-->
@@ -110,7 +123,7 @@ if (isset($_POST['submit'])) {
                 <form action="penulis.php" method="POST">
                     <input type="hidden" name="id" id="id" value="<?php echo $data['id'] ?>">
                     <div class="input-field col s12 m12">
-                        <input id="penulis" name="penulis" value="<?php echo $data['penulis'] ?>" type="text" class="validate">
+                        <input name="penulis" value="<?php echo $data['penulis'] ?>" type="text" class="validate">
                         <label for="penulis">Nama Penulis</label>
                     </div>
                     <div class="input-field col s12 m12">
@@ -130,46 +143,10 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="modal-footer">
             <a href="#" class="modal-close waves-effect waves-light grey btn-small" title="Batal"><i class="material-icons left">cancel</i> Batal</a>
-            <button type="submit" name="submit" title="Simpan" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Simpan</button>
-            </form>
-        </div>
-    </div>
-<?php } ?>
-
-<!-- Modal Edit Data-->
-<?php foreach ($query as $data) { ?>
-    <div id="edit<?php echo $data['id'] ?>" class="modal">
-        <div class="modal-content">
-            <div class="row">
-                <h4>Form Penerbit</h4>
-                <form action="penerbit.php" method="POST">
-                    <input type="hidden" name="id" id="id" value="<?php echo $data['id'] ?>">
-                    <div class="input-field col s12 m12">
-                        <input name="penerbit" value="<?php echo $data['penerbit'] ?>" type="text" class="validate">
-                        <label for="penerbit">Nama Penerbit</label>
-                    </div>
-                    <div class="input-field col s12 m12">
-                        <input id="email_penerbit" name="email_penerbit" value="<?php echo $data['email_penerbit'] ?>" type="email" class="validate">
-                        <label for="email_penerbit">Email</label>
-                    </div>
-                    <div class="input-field col s12 m12">
-                        <input id="sosmed_penerbit" name="sosmed_penerbit" value="<?php echo $data['sosmed_penerbit'] ?>" type="text" class="validate">
-                        <label for="sosmed_penerbit">Sosial Media</label>
-                    </div>
-                    <div class="input-field col s12 m12">
-                        <textarea id="alamat_penerbit" name="alamat_penerbit" class="materialize-textarea"><?php echo $data['alamat_penerbit'] ?></textarea>
-                        <label for="alamat_penerbit">Alamat</label>
-                    </div>
-
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="modal-close waves-effect waves-light grey btn-small" title="Batal"><i class="material-icons left">cancel</i> Batal</a>
             <button type="submit" name="update" title="Update" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Update</button>
             </form>
         </div>
     </div>
-
 <?php } ?>
 
 <?php
