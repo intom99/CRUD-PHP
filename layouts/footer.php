@@ -3,6 +3,9 @@
     <script>
         const sidenav = document.querySelectorAll('.sidenav');
         M.Sidenav.init(sidenav);
+
+        const modal = document.querySelectorAll('.modal');
+        M.Modal.init(modal);
     </script>
     </body>
 
