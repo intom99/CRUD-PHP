@@ -6,6 +6,9 @@
 
         const modal = document.querySelectorAll('.modal');
         M.Modal.init(modal);
+
+        const image = document.querySelectorAll('.materialboxed');
+        M.Materialbox.init(image);
     </script>
     </body>
 

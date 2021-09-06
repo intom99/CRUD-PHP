@@ -17,7 +17,7 @@ $query = mysqli_query($connect, "SELECT * FROM buku JOIN penulis ON penulis.id =
                     <div class="col s12 m3">
                         <div class="card">
                             <div class="card-image">
-                                <img src="assets/logo/logo.png">
+                                <img class="materialboxed" width="250" src="assets/img/Nayeon.jpg">
                             </div>
                             <div class="card-content">
                                 <b><?php echo $row['judul'] ?></b>
@@ -44,14 +44,13 @@ $query = mysqli_query($connect, "SELECT * FROM buku JOIN penulis ON penulis.id =
     <div id="detail<?php echo $data['id'] ?>" class="modal">
         <div class="modal-content">
             <div class="row">
-                <div class="col m2 s12">
+                <div class="col m4 s12">
                     <div class="card-image">
-                        <img src="assets/logo/loo.png">
+                        <img class="materialboxed" width="250" src="assets/img/Nayeon.jpg">
                     </div>
                 </div>
-                <div class="col m10 s12">
+                <div class="col m8 s12">
                     <table class="table">
-
 
                         <tr>
                             <td>Judul</td>
