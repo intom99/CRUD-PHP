@@ -51,7 +51,6 @@ if (isset($_GET['delete'])) {
                     <span class="card-title">
                         <!-- Modal Tambah -->
                         <a class="waves-effect waves-light cyan darken-4 btn btn-small modal-trigger" href="#tambah"><i class="material-icons left">add</i> Tambah</a>
-
                     </span>
                     <table class="responsive-table">
                         <thead>
