@@ -39,7 +39,57 @@ $query = mysqli_query($connect, "SELECT * FROM buku JOIN penulis ON penulis.id =
 
 </div>
 
+<!-- Modal Detail Data-->
+<?php foreach ($query as $data) { ?>
+    <div id="detail<?php echo $data['id'] ?>" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col m2 s12">
+                    <div class="card-image">
+                        <img src="assets/logo/loo.png">
+                    </div>
+                </div>
+                <div class="col m10 s12">
+                    <table class="table">
 
+
+                        <tr>
+                            <td>Judul</td>
+                            <td><?php echo $data['judul'] ?></td>
+                        </tr>
+                        <tr>
+                            <td>ISBN</td>
+                            <td>
+                                <p><?php echo $data['isbn'] ?></p>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>Penulis</td>
+                            <td><?php echo $data['penulis'] ?></td>
+                        </tr>
+                        <tr>
+                            <td>Penerbit</td>
+                            <td><?php echo $data['penerbit'] ?></td>
+                        </tr>
+                        <tr>
+                            <td>Tahun Terbit</td>
+                            <td><?php echo $data['tahun_terbit'] ?></td>
+                        </tr>
+                        <tr>
+                            <td>Deskripsi</td>
+                            <td><?php echo $data['deskripsi'] ?></td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+<?php } ?>
 
 <?php
 include('layouts/footer.php');
