@@ -30,40 +30,48 @@ if (isset($_POST['update'])) {
     mysqli_query($connect, "UPDATE buku SET isbn='$isbn', judul = '$judul', id_penulis = '$id_penulis', id_penerbit = '$id_penerbit', tahun_terbit='$tahun_terbit', deskripsi='$deskripsi' WHERE id = '$id'");
     header('location: buku.php');
 }
+//Hapus
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+
+    mysqli_query($connect, "DELETE FROM buku WHERE id = '$id'");
+    header('location: buku.php');
+}
 ?>
 
 <!-- content buku-->
 <div class="container">
     <div class="row">
-        <div class="col s12 m12">
+        <div class="col s12 m12 l12">
             <h3>Buku</h3>
             <hr>
             <a class="waves-effect waves-light cyan darken-4 btn btn-small modal-trigger" href="#tambah"><i class="material-icons left">add</i> Tambah</a>
-
-            <div class="row">
-                <?php foreach ($query as $row) { ?>
-                    <div class="col s12 m3">
-                        <div class="card">
-                            <div class="card-image">
-                                <img class="materialboxed" width="250" src="assets/img/Nayeon.jpg">
-                            </div>
-                            <div class="card-content">
-                                <b><?php echo $row['judul'] ?></b>
-                                <p><?php echo $row['deskripsi'] ?></p>
-                            </div>
-                            <div class="card-action">
-                                <a class="modal-trigger" href="#detail<?php echo $row['id'] ?>" title="Detail"> Detail</a>
-                                <a class="btn-small btn-floating modal-trigger" href="#edit<?php echo $row['id'] ?>" title="Edit"><i class="material-icons">create</i></a>
-                                <a onclick="javascript:return confirm('apakah anda yakin akan dihapus ?');" href="buku.php?delete=<?php echo $row['id'] ?>" class="waves-effect waves-light red darken-4 btn-small btn-floating" title="Hapus"><i class="material-icons">delete</i></a>
-
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?>
-            </div>
-
         </div>
     </div>
+
+    <div class="row">
+        <?php while ($row = mysqli_fetch_array($query)) { ?>
+            <div class="col m3 s12">
+                <div class="card small">
+                    <div class="card-image">
+                        <img class="materialboxed" width="250" src="assets/img/Nayeon.jpg">
+                    </div>
+                    <div class="card-content">
+                        <b><?php echo $row['judul'] ?></b>
+                        <p><?php echo $row['deskripsi'] ?></p>
+                    </div>
+                    <div class="card-action">
+                        <a class="modal-trigger" href="#detail<?php echo $row['id'] ?>" title="Detail"> Detail</a>
+                        <a class="btn-small btn-floating modal-trigger" href="#edit<?php echo $row['id'] ?>" title="Edit"><i class="material-icons">create</i></a>
+                        <a onclick="javascript:return confirm('apakah anda yakin akan dihapus ?');" href="buku.php?delete=<?php echo $row['id'] ?>" class="waves-effect waves-light red darken-4 btn-small btn-floating" title="Hapus"><i class="material-icons">delete</i></a>
+
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+
+
 
 </div>
 
