@@ -17,6 +17,19 @@ if (isset($_POST['submit'])) {
     mysqli_query($connect, "INSERT INTO buku (isbn, judul, id_penulis, id_penerbit, tahun_terbit, deskripsi) VALUES ('$isbn','$judul','$id_penulis','$id_penerbit','$tahun_terbit','$deskripsi')");
     header('location: buku.php');
 }
+// Update
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $isbn = $_POST['isbn'];
+    $judul = $_POST['judul'];
+    $id_penulis = $_POST['id_penulis'];
+    $id_penerbit = $_POST['id_penerbit'];
+    $tahun_terbit = $_POST['tahun_terbit'];
+    $deskripsi = $_POST['deskripsi'];
+
+    mysqli_query($connect, "UPDATE buku SET isbn='$isbn', judul = '$judul', id_penulis = '$id_penulis', id_penerbit = '$id_penerbit', tahun_terbit='$tahun_terbit', deskripsi='$deskripsi' WHERE id = '$id'");
+    header('location: buku.php');
+}
 ?>
 
 <!-- content buku-->
@@ -116,6 +129,79 @@ if (isset($_POST['submit'])) {
         </form>
     </div>
 </div>
+
+
+<!-- Modal Edit Data-->
+<?php foreach ($query as $data) { ?>
+    <div id="edit<?php echo $data['id'] ?>" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <h4>Form Buku</h4>
+                <div class="col m4 s12">
+                    <div class="card-image">
+                        <img class="materialboxed" width="250" src="assets/img/Nayeon.jpg">
+                    </div>
+                </div>
+
+                <div class="col m8 s12">
+                    <form action="buku.php" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" id="id" value="<?php echo $data['id'] ?>">
+                        <div class="input-field col s12 m12">
+                            <input id="isbn" name="isbn" value="<?php echo $data['isbn'] ?>" type="text" class="validate">
+                            <label for="isbn">ISBN</label>
+                        </div>
+                        <div class="input-field col s12 m12">
+                            <input id="judul" name="judul" value="<?php echo $data['judul'] ?>" type="text" class="validate">
+                            <label for="judul">Judul</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select name="id_penulis">
+                                <option value="" disabled>--Pilih Penulis--</option>
+                                <?php foreach ($query_penulis as $rows) { ?>
+                                    <option value="<?php echo $rows['id'] ?>" <?php if ($rows['id'] == $data['id_penulis']) {
+                                                                                    echo "selected=\"selected\"";
+                                                                                } ?>><?php echo $rows['penulis'] ?></option>
+                                <?php } ?>
+                            </select>
+                            <label>Penulis</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <select name="id_penerbit">
+                                <option value="" disabled>--Pilih Penerbit--</option>
+                                <?php foreach ($query_penerbit as $rows) { ?>
+                                    <option value="<?php echo $rows['id'] ?>" <?php if ($rows['id'] == $data['id_penerbit']) {
+                                                                                    echo "selected=\"selected\"";
+                                                                                } ?>><?php echo $rows['penerbit'] ?></option>
+
+                                <?php } ?>
+                            </select>
+                            <label>Penerbit</label>
+                        </div>
+
+                        <div class="input-field col s12 m12">
+                            <input id="tahun_terbit" name="tahun_terbit" value="<?php echo $data['tahun_terbit'] ?>" type="text" class="validate">
+                            <label for="tahun_terbit">Tahun Terbit</label>
+                        </div>
+
+                        <div class="input-field col s12 m12">
+                            <textarea id="deskripsi" name="deskripsi" class="materialize-textarea"><?php echo $data['deskripsi'] ?></textarea>
+                            <label for="deskripsi">Deskripsi</label>
+                        </div>
+                        <!--  -->
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect waves-light grey btn-small" title="Batal"><i class="material-icons left">cancel</i> Batal</a>
+            <button type="submit" name="update" title="Update" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Update</button>
+            </form>
+        </div>
+
+    </div>
+<?php } ?>
 
 <!-- Modal Detail Data-->
 <?php foreach ($query as $data) { ?>
