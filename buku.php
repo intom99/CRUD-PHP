@@ -1,17 +1,32 @@
 <?php
 include('layouts/header.php');
 include('layouts/navbar.php');
-
+// Tampil
 $query = mysqli_query($connect, "SELECT * FROM buku JOIN penulis ON penulis.id = buku.id_penulis JOIN penerbit ON penerbit.id = buku.id_penerbit");
+$query_penulis = mysqli_query($connect, "SELECT * FROM penulis");
+$query_penerbit = mysqli_query($connect, "SELECT * FROM penerbit");
+// Tambah
+if (isset($_POST['submit'])) {
+    $isbn = $_POST['isbn'];
+    $judul = $_POST['judul'];
+    $id_penulis = $_POST['id_penulis'];
+    $id_penerbit = $_POST['id_penerbit'];
+    $tahun_terbit = $_POST['tahun_terbit'];
+    $deskripsi = $_POST['deskripsi'];
 
+    mysqli_query($connect, "INSERT INTO buku (isbn, judul, id_penulis, id_penerbit, tahun_terbit, deskripsi) VALUES ('$isbn','$judul','$id_penulis','$id_penerbit','$tahun_terbit','$deskripsi')");
+    header('location: buku.php');
+}
 ?>
 
 <!-- content buku-->
 <div class="container">
-    <!-- card -->
     <div class="row">
         <div class="col s12 m12">
             <h3>Buku</h3>
+            <hr>
+            <a class="waves-effect waves-light cyan darken-4 btn btn-small modal-trigger" href="#tambah"><i class="material-icons left">add</i> Tambah</a>
+
             <div class="row">
                 <?php foreach ($query as $row) { ?>
                     <div class="col s12 m3">
@@ -37,6 +52,69 @@ $query = mysqli_query($connect, "SELECT * FROM buku JOIN penulis ON penulis.id =
         </div>
     </div>
 
+</div>
+
+<!-- Modal Tambah Data-->
+<div id="tambah" class="modal">
+    <div class="modal-content">
+        <div class="row">
+            <h4>Form Buku</h4>
+            <form action="buku.php" method="POST" enctype="multipart/form-data">
+                <div class="input-field col s12 m12">
+                    <input id="isbn" name="isbn" type="text" class="validate">
+                    <label for="isbn">ISBN</label>
+                </div>
+                <div class="input-field col s12 m12">
+                    <input id="judul" name="judul" type="text" class="validate">
+                    <label for="judul">Judul</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <select name="id_penulis">
+                        <option value="" disabled selected>--Pilih Penulis--</option>
+                        <?php foreach ($query_penulis as $row) { ?>
+                            <option value="<?php echo $row['id'] ?>"><?php echo $row['penulis'] ?></option>
+                        <?php } ?>
+                    </select>
+                    <label>Penulis</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <select name="id_penerbit">
+                        <option value="" disabled selected>--Pilih Penerbit--</option>
+                        <?php foreach ($query_penerbit as $row) { ?>
+                            <option value="<?php echo $row['id'] ?>"><?php echo $row['penerbit'] ?></option>
+                        <?php } ?>
+                    </select>
+                    <label>Penerbit</label>
+                </div>
+
+                <div class="input-field col s12 m12">
+                    <input id="tahun_terbit" name="tahun_terbit" type="text" class="validate">
+                    <label for="tahun_terbit">Tahun Terbit</label>
+                </div>
+
+                <div class="input-field col s12 m12">
+                    <textarea id="deskripsi" name="deskripsi" class="materialize-textarea"></textarea>
+                    <label for="deskripsi">Deskripsi</label>
+                </div>
+
+                <!-- <div class="file-field input-field col s12 m12">
+                    <div class="btn">
+                        <span>File</span>
+                        <input type="file" multiple>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" name="image" type="text" placeholder="Upload one or more files">
+                    </div>
+                </div> -->
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-light grey btn-small" title="Batal"><i class="material-icons left">cancel</i> Batal</a>
+        <button type="submit" name="submit" title="Simpan" class="waves-effect waves-light light-blue darken-4 btn-small"><i class="material-icons left">save</i> Simpan</button>
+        </form>
+    </div>
 </div>
 
 <!-- Modal Detail Data-->
