@@ -14,8 +14,28 @@ if (isset($_POST['submit'])) {
     $tahun_terbit = $_POST['tahun_terbit'];
     $deskripsi = $_POST['deskripsi'];
 
-    mysqli_query($connect, "INSERT INTO buku (isbn, judul, id_penulis, id_penerbit, tahun_terbit, deskripsi) VALUES ('$isbn','$judul','$id_penulis','$id_penerbit','$tahun_terbit','$deskripsi')");
-    header('location: buku.php');
+    $format_gambar = array('png', 'jpg');
+    $gambar = $_FILES['gambar']['name'];
+    $x = explode('.', $gambar);
+    $format = strtolower(end($x));
+    $file_tmp = $_FILES['gambar']['tmp_name'];
+
+    if (!empty($gambar)) {
+        if (in_array($format, $format_gambar) === true) {
+
+            // upload gambar
+            move_uploaded_file($file_tmp, 'assets/img/' . $gambar);
+
+            $upload = mysqli_query($connect, "INSERT INTO buku (isbn, judul, id_penulis, id_penerbit, tahun_terbit, deskripsi,gambar) VALUES ('$isbn','$judul','$id_penulis','$id_penerbit','$tahun_terbit','$deskripsi','$gambar')");
+            if ($upload) {
+                header('location: buku.php?add=berhasil');
+            } else {
+                header('location: buku.php?add=gagal');
+            }
+        } else {
+            $gambar = "default.png";
+        }
+    }
 }
 // Update
 if (isset($_POST['update'])) {
@@ -54,7 +74,7 @@ if (isset($_GET['delete'])) {
             <div class="col m3 s12">
                 <div class="card small">
                     <div class="card-image">
-                        <img class="materialboxed" width="250" src="assets/img/Nayeon.jpg">
+                        <img class="materialboxed" width="250" src="assets/img/<?php echo $row['gambar'] ?>">
                     </div>
                     <div class="card-content">
                         <b><?php echo $row['judul'] ?></b>
@@ -120,15 +140,15 @@ if (isset($_GET['delete'])) {
                     <label for="deskripsi">Deskripsi</label>
                 </div>
 
-                <!-- <div class="file-field input-field col s12 m12">
+                <div class="file-field input-field col s12 m12">
                     <div class="btn">
                         <span>File</span>
-                        <input type="file" multiple>
+                        <input type="file" name="gambar" multiple>
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" name="image" type="text" placeholder="Upload one or more files">
+                        <input class="file-path validate" type="text" placeholder="Upload one or more files">
                     </div>
-                </div> -->
+                </div>
         </div>
     </div>
     <div class="modal-footer">
